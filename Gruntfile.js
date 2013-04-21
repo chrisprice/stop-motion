@@ -24,13 +24,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-            coffee: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-                tasks: ['coffee:dist']
-            },
-            coffeeTest: {
-                files: ['test/spec/{,*/}*.coffee'],
-                tasks: ['coffee:test']
+            browserify: {
+                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                tasks: ['browserify:dist']
             },
             less: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{less,css}'],
@@ -120,24 +116,15 @@ module.exports = function (grunt) {
                 }
             }
         },
-        coffee: {
+        browserify: {
             dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.app %>/scripts',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/scripts',
-                    ext: '.js'
-                }]
+                src: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                dest: '.tmp/scripts/main.js'
             },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'test/spec',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/spec',
-                    ext: '.js'
-                }]
+            server: {
+                src: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                dest: '.tmp/scripts/main.js',
+                debug: true
             }
         },
         less: {
@@ -260,14 +247,13 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'coffee:dist',
+                'browserify:server',
                 'less:server'
             ],
             test: [
-                'coffee'
             ],
             dist: [
-                'coffee',
+                'browserify:dist',
                 'less:dist',
                 'imagemin',
                 'svgmin',

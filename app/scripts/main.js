@@ -1,1 +1,3 @@
-console.log('\'Allo \'Allo!');
+var jquery = require('jquery');
+
+console.log('\'Allo \'Allo!', jquery);
