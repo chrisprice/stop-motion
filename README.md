@@ -4,6 +4,12 @@ A simple app for creating stop motion gifs from a webcam, making use of WebRTC g
 
 ## Build Instructions
 
+Install Yeoman -
+
+```
+npm install -g yo grunt-cli bower 
+```
+
 To build the app -
 
 ```
