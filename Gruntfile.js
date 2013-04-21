@@ -32,9 +32,9 @@ module.exports = function (grunt) {
                 files: ['test/spec/{,*/}*.coffee'],
                 tasks: ['coffee:test']
             },
-            compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server']
+            less: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.{less,css}'],
+                tasks: ['less:server']
             },
             livereload: {
                 files: [
@@ -140,20 +140,17 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        compass: {
+        less: {
             options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: 'app/components',
-                relativeAssets: true
             },
-            dist: {},
+            dist: {
+                files: {
+                    '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.less'
+                }
+            },
             server: {
-                options: {
-                    debugInfo: true
+                files: {
+                    '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.less'
                 }
             }
         },
@@ -264,15 +261,14 @@ module.exports = function (grunt) {
         concurrent: {
             server: [
                 'coffee:dist',
-                'compass:server'
+                'less:server'
             ],
             test: [
-                'coffee',
-                'compass'
+                'coffee'
             ],
             dist: [
                 'coffee',
-                'compass:dist',
+                'less:dist',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
